@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JAMIKEUP — Artiste Maquilleuse Professionnelle by Jiji. Maquillage nuptial, événements et éditorial. Réservez votre session dès aujourd'hui.">
+  <title>JAMIKEUP — Makeup Artist by Jiji</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================
+       VARIABLES & RESET
+    ============================ */
+    :root {
+      --bg:        #130b1d;
+      --bg-mid:    #1a1029;
+      --bg-card:   #1f1433;
+      --gold:      #c9a55a;
+      --gold-lt:   #e8d5a0;
+      --gold-dk:   #9a7a3a;
+      --lips:      #9b5a44;
+      --cream:     #f3ede3;
+      --muted:     rgba(243,237,227,0.65);
+      --border:    rgba(201,165,90,0.22);
+      --font-disp: 'Cinzel', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui:   'Jost', sans-serif;
+      --ease:      cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg);
+      color: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================
+       DECORATIVE STAR
+    ============================ */
+    .star::before { content: '✦'; color: var(--gold); font-size: 0.65em; }
+
+    /* ============================
+       NAVBAR
+    ============================ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      padding: 1.4rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.4s var(--ease);
+    }
+    #nav.solid {
+      background: rgba(19,11,29,0.96);
+      backdrop-filter: blur(14px);
+      padding: 1rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Logo mark in nav */
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .nav-lips {
+      width: 28px; height: 22px;
+    }
+    .nav-wordmark {
+      font-family: var(--font-disp);
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex; list-style: none; gap: 2.5rem;
+    }
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: all 0.3s var(--ease);
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+    /* Hamburger */
+    .burger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .burger span {
+      display: block; width: 22px; height: 1px;
+      background: var(--gold);
+      transition: all 0.35s var(--ease);
+    }
+    .burger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-4px); }
+
+    /* Mobile nav overlay */
+    #mobile-nav {
+      display: none;
+      position: fixed; inset: 0; z-index: 998;
+      background: rgba(19,11,29,0.98);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    #mobile-nav.open { display: flex; }
+    #mobile-nav a {
+      font-family: var(--font-disp);
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+
+    /* ============================
+       HERO
+    ============================ */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 8rem 2rem 5rem;
+    }
+
+    /* Radial glow */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 70vw; height: 70vw;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,165,90,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    /* Decorative frame lines */
+    .hero-frame {
+      position: absolute;
+      inset: 2rem;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+    .hero-frame::before, .hero-frame::after {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.7rem;
+      position: absolute;
+      top: -0.6rem;
+    }
+    .hero-frame::before { left: -0.4rem; }
+    .hero-frame::after  { right: -0.4rem; }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      text-align: center;
+      max-width: 880px;
+    }
+
+    /* Big lips SVG */
+    .hero-icon {
+      margin: 0 auto 2rem;
+      width: 72px; opacity: 0;
+      animation: fadeDown 1s 0.2s var(--ease) forwards;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s var(--ease) forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-disp);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      line-height: 1;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s var(--ease) forwards;
+    }
+
+    .hero-rule {
+      display: flex; align-items: center; gap: 1rem;
+      justify-content: center;
+      margin: 0.75rem auto 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s var(--ease) forwards;
+    }
+    .hero-rule span { flex: 1; max-width: 100px; height: 1px; background: var(--gold); opacity: 0.5; }
+    .hero-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 200;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+    }
+
+    .hero-byline {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      margin-top: 0.25rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.85s var(--ease) forwards;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1s var(--ease) forwards;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 1rem 2.8rem;
+      background: var(--gold);
+      color: var(--bg);
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: all 0.35s var(--ease);
+    }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 1rem 2rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: all 0.35s var(--ease);
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-ghost::after { content: '↓'; transition: transform 0.3s; }
+    .btn-ghost:hover::after { transform: translateY(3px); }
+
+    /* Scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      opacity: 0.4;
+    }
+    .scroll-cue span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ============================
+       SECTION GENERIC
+    ============================ */
+    .section { padding: 8rem 2rem; }
+    .section.alt { background: var(--bg-mid); }
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    .section-badge {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-badge::before { content: ''; flex: 0 0 30px; height: 1px; background: var(--gold); }
+
+    .section-title {
+      font-family: var(--font-disp);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); font-family: var(--font-body); }
+
+    /* ============================
+       ABOUT
+    ============================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-photo {
+      position: relative;
+    }
+    .photo-frame {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201,165,90,0.1) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .photo-frame img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .photo-frame-fallback {
+      font-size: 7rem;
+      color: rgba(201,165,90,0.2);
+    }
+    /* Gold border offset */
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+
+    .about-stat {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--font-disp);
+      font-size: 2.5rem;
+      font-weight: 600;
+      display: block;
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-family: var(--font-ui);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .about-text p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+      font-family: var(--font-body);
+    }
+    .about-text p strong { color: var(--cream); font-weight: 400; }
+
+    .about-list {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin-top: 2rem; margin-bottom: 2.5rem;
+    }
+    .about-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--border);
+      color: var(--gold);
+    }
+
+    /* ============================
+       SERVICES
+    ============================ */
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .svc-card {
+      background: var(--bg);
+      padding: 2.75rem 2.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s var(--ease);
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 2px; width: 0;
+      background: var(--gold);
+      transition: width 0.5s var(--ease);
+    }
+    .svc-card:hover { background: var(--bg-card); }
+    .svc-card:hover::before { width: 100%; }
+
+    .svc-number {
+      font-family: var(--font-disp);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 1.5rem;
+    }
+    .svc-icon { font-size: 1.8rem; margin-bottom: 1.25rem; }
+    .svc-name {
+      font-family: var(--font-disp);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .svc-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+    .svc-price {
+      font-family: var(--font-disp);
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================
+       GALLERY
+    ============================ */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 300px 300px;
+      gap: 6px;
+      margin-top: 3.5rem;
+    }
+    .gal-item { overflow: hidden; cursor: pointer; position: relative; }
+    .gal-item:first-child { grid-row: span 2; }
+
+    .gal-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s var(--ease);
+      display: block;
+    }
+    .gal-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(145deg, var(--bg-card), rgba(201,165,90,0.08));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      transition: transform 0.7s var(--ease);
+    }
+    .gal-item:hover .gal-img,
+    .gal-item:hover .gal-placeholder { transform: scale(1.06); }
+
+    .gal-overlay {
+      position: absolute; inset: 0;
+      background: rgba(19,11,29,0);
+      transition: background 0.4s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gal-label {
+      font-family: var(--font-disp);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.4s;
+    }
+    .gal-item:hover .gal-overlay { background: rgba(19,11,29,0.45); }
+    .gal-item:hover .gal-label { opacity: 1; transform: translateY(0); }
+
+    /* ============================
+       TESTIMONIALS
+    ============================ */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .testi {
+      border: 1px solid var(--border);
+      padding: 2.5rem 2.25rem;
+      position: relative;
+    }
+    .testi::before {
+      content: '"';
+      font-family: var(--font-body);
+      font-size: 7rem;
+      color: rgba(201,165,90,0.08);
+      position: absolute;
+      top: -1rem; left: 1.5rem;
+      line-height: 1;
+    }
+    .testi-text {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .testi-author {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 0.75rem; letter-spacing: 2px; }
+
+    /* ============================
+       CONTACT
+    ============================ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contact-info p { font-family: var(--font-body); font-size: 1.15rem; color: var(--muted); margin-bottom: 2.5rem; }
+
+    .cinfo-line {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .cinfo-icon { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .cinfo-detail { font-size: 0.92rem; }
+    .cinfo-detail a { color: var(--muted); transition: color 0.3s; }
+    .cinfo-detail a:hover { color: var(--gold); }
+    .cinfo-detail small { display: block; font-size: 0.78rem; color: rgba(243,237,227,0.35); margin-top: 0.15rem; }
+
+    .social-row {
+      display: flex; gap: 0.75rem; margin-top: 2.5rem;
+    }
+    .soc-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 0.9rem;
+      transition: all 0.3s var(--ease);
+    }
+    .soc-btn:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+    /* Form */
+    .fgroup { margin-bottom: 1.4rem; }
+    .fgroup label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .fgroup input,
+    .fgroup textarea,
+    .fgroup select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,165,90,0.2);
+      color: var(--cream);
+      padding: 0.85rem 1.1rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 300;
+      transition: border-color 0.3s;
+      appearance: none;
+    }
+    .fgroup input:focus,
+    .fgroup textarea:focus,
+    .fgroup select:focus { outline: none; border-color: var(--gold); }
+    .fgroup textarea { resize: vertical; min-height: 120px; }
+    .fgroup select option { background: var(--bg); }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fbtn {
+      width: 100%; padding: 1rem;
+      background: var(--gold); color: var(--bg);
+      border: none; cursor: pointer;
+      font-family: var(--font-ui); font-size: 0.72rem;
+      font-weight: 400; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: all 0.35s var(--ease);
+    }
+    .fbtn:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .fbtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .fmsg { padding: 0.85rem 1rem; margin-top: 1rem; font-size: 0.88rem; display: none; }
+    .fmsg.ok  { background: rgba(201,165,90,0.1); border-left: 3px solid var(--gold); color: var(--gold-lt); display: block; }
+    .fmsg.err { background: rgba(200,80,80,0.1);  border-left: 3px solid #c86464;     color: #c86464;       display: block; }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 2.5rem;
+      text-align: center;
+    }
+    .footer-logo {
+      display: inline-flex; align-items: center; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .footer-wordmark {
+      font-family: var(--font-disp);
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+    }
+    .footer-sub {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .footer-by {
+      font-family: var(--font-body); font-style: italic;
+      color: rgba(243,237,227,0.4); font-size: 0.9rem; margin-bottom: 2rem;
+    }
+    .footer-copy {
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      color: rgba(243,237,227,0.25); margin-top: 2rem;
+      padding-top: 1.5rem; border-top: 1px solid rgba(201,165,90,0.08);
+    }
+
+    /* ============================
+       SCROLL REVEAL
+    ============================ */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .reveal.vis { opacity: 1; transform: none; }
+    .reveal-left  { opacity: 0; transform: translateX(-28px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+    .reveal-right { opacity: 0; transform: translateX(28px);  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+    .reveal-left.vis, .reveal-right.vis { opacity: 1; transform: none; }
+
+    /* ============================
+       ANIMATIONS
+    ============================ */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-15px); } to { opacity:1; transform:none; } }
+    @keyframes scrollPulse { 0%,100%{opacity:.4;transform:scaleY(1);} 50%{opacity:.8;transform:scaleY(1.15);} }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .gallery-grid  { grid-template-rows: 250px 250px; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 5.5rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .burger { display: flex; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-stat { right: 0; }
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(3,200px);
+      }
+      .gal-item:first-child { grid-row: span 1; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; }
+      .frow { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { letter-spacing: 0.08em; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .gal-item { height: 240px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <!-- Lips SVG matching the logo -->
+    <svg class="nav-lips" viewBox="0 0 60 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 8C22 8 12 14 6 20C12 18 18 16 24 17C26 17.5 28 19 30 19C32 19 34 17.5 36 17C42 16 48 18 54 20C48 14 38 8 30 8Z" fill="#9b5a44"/>
+      <path d="M6 20C10 26 18 38 30 38C42 38 50 26 54 20C48 18 42 16 36 17C34 17.5 32 19 30 21C28 19 26 17.5 24 17C18 16 12 18 6 20Z" fill="#7a3f2c"/>
+      <path d="M24 17C26 17.5 28 19 30 19C32 19 34 17.5 36 17C34 20 32 21 30 21C28 21 26 20 24 17Z" fill="#c9a55a" opacity="0.4"/>
+    </svg>
+    <span class="nav-wordmark">JAMIKEUP</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <a href="#contact" class="nav-cta">Réserver</a>
+
+  <button class="burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile nav -->
+<div id="mobile-nav">
+  <a href="#about"    onclick="closeMobile()">À propos</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#gallery"  onclick="closeMobile()">Portfolio</a>
+  <a href="#contact"  onclick="closeMobile()">Contact</a>
+  <a href="#contact"  onclick="closeMobile()" style="color:var(--gold-lt); font-size:1rem; letter-spacing:0.2em;">✦ Réserver une session</a>
+</div>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="hero-frame"></div>
+
+  <div class="hero-inner">
+    <!-- Large lips icon -->
+    <svg class="hero-icon" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 15C43 15 23 26 10 38C23 34 36 30 48 32C52 33 56 36 60 36C64 36 68 33 72 32C84 30 97 34 110 38C97 26 77 15 60 15Z" fill="#9b5a44"/>
+      <path d="M10 38C18 52 35 74 60 74C85 74 102 52 110 38C97 34 84 30 72 32C68 33 64 36 60 40C56 36 52 33 48 32C36 30 23 34 10 38Z" fill="#7a3f2c"/>
+      <path d="M48 32C52 33 56 36 60 36C64 36 68 33 72 32C68 38 64 41 60 41C56 41 52 38 48 32Z" fill="#c9a55a" opacity="0.5"/>
+      <!-- Sparkle dots like the logo -->
+      <circle cx="8"  cy="14" r="1.5" fill="#c9a55a" opacity="0.6"/>
+      <circle cx="112" cy="14" r="1.5" fill="#c9a55a" opacity="0.6"/>
+      <circle cx="8"  cy="76" r="1.5" fill="#c9a55a" opacity="0.6"/>
+      <circle cx="112" cy="76" r="1.5" fill="#c9a55a" opacity="0.6"/>
+    </svg>
+
+    <p class="hero-eyebrow">✦ &nbsp; Artiste Maquilleuse Professionnelle &nbsp; ✦</p>
+
+    <h1 class="hero-title">JAMIKEUP</h1>
+
+    <div class="hero-rule">
+      <span></span>
+      <span class="hero-subtitle">— &nbsp; Makeup Artist &nbsp; —</span>
+      <span></span>
+    </div>
+
+    <p class="hero-byline">by jiji</p>
+
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-gold">Réserver une session</a>
+      <a href="#gallery" class="btn-ghost">Voir le portfolio</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Découvrir</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about" class="section alt">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-photo reveal-left">
+        <div class="photo-frame">
+          <img
+            src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=700&auto=format&fit=crop&q=80"
+            alt="Jiji — JAMIKEUP"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <div class="photo-frame-fallback" style="display:none">💄</div>
+        </div>
+        <div class="about-stat">
+          <span class="stat-num">+300</span>
+          <span class="stat-lbl">Clientes sublimées</span>
+        </div>
+      </div>
+
+      <div class="about-text reveal-right">
+        <p class="section-badge">À propos</p>
+        <h2 class="section-title">Bonjour, je suis <em>Jiji</em></h2>
+
+        <p>Passionnée de beauté et d'art depuis toujours, j'ai créé <strong>JAMIKEUP</strong> pour offrir une expérience maquillage unique, personnalisée et mémorable.</p>
+
+        <p>Spécialisée dans le maquillage <strong>nuptial, éditorial et événementiel</strong>, je m'adapte à chaque visage, chaque morphologie, chaque personnalité — parce que la vraie beauté, c'est la vôtre.</p>
+
+        <p>Chaque séance est une collaboration artistique où vous êtes la protagoniste. Mon objectif : que vous vous sentiez <strong>rayonnante, confiante, vous-même</strong>.</p>
+
+        <div class="about-list">
+          <span class="about-tag">Maquillage Nuptial</span>
+          <span class="about-tag">Éditorial</span>
+          <span class="about-tag">Événements</span>
+          <span class="about-tag">Artistry</span>
+          <span class="about-tag">Formation</span>
+        </div>
+
+        <a href="#contact" class="btn-gold">Travaillons ensemble</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section id="services" class="section">
+  <div class="container">
+    <div class="services-header reveal">
+      <div>
+        <p class="section-badge">Mes services</p>
+        <h2 class="section-title">Chaque occasion,<br><em>un regard unique</em></h2>
+      </div>
+      <a href="#contact" class="btn-ghost" style="white-space:nowrap">Demander un devis</a>
+    </div>
+
+    <div class="services-grid reveal">
+
+      <div class="svc-card">
+        <div class="svc-number">01</div>
+        <div class="svc-icon">💍</div>
+        <h3 class="svc-name">Maquillage Nuptial</h3>
+        <p class="svc-desc">Le jour le plus précieux de votre vie mérite un maquillage parfait. Longue durée, photogénique, sur-mesure.</p>
+        <div class="svc-price">À partir de 150€</div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-number">02</div>
+        <div class="svc-icon">✨</div>
+        <h3 class="svc-name">Événements & Galas</h3>
+        <p class="svc-desc">Anniversaires, soirées, remises de prix — arrivez impeccable à chaque moment important.</p>
+        <div class="svc-price">À partir de 80€</div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-number">03</div>
+        <div class="svc-icon">📸</div>
+        <h3 class="svc-name">Éditorial & Photo</h3>
+        <p class="svc-desc">Maquillage professionnel pour shootings photo, vidéos, campagnes et productions éditoriales.</p>
+        <div class="svc-price">À partir de 120€</div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-number">04</div>
+        <div class="svc-icon">🎭</div>
+        <h3 class="svc-name">Maquillage Artistique</h3>
+        <p class="svc-desc">Effets spéciaux, caractérisation, looks créatifs pour théâtre, cinéma, Halloween et festivals.</p>
+        <div class="svc-price">À partir de 90€</div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-number">05</div>
+        <div class="svc-icon">🎓</div>
+        <h3 class="svc-name">Cours Personnalisés</h3>
+        <p class="svc-desc">Apprenez les techniques pro adaptées à votre visage. Session individuelle 1:1 à domicile.</p>
+        <div class="svc-price">À partir de 70€</div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-number">06</div>
+        <div class="svc-icon">👰</div>
+        <h3 class="svc-name">Pack Mariage Complet</h3>
+        <p class="svc-desc">Mariée + demoiselles d'honneur. Essai inclus, maquillage le jour J et assistance cérémonie.</p>
+        <div class="svc-price">À partir de 350€</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== GALLERY ========== -->
+<section id="gallery" class="section alt">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-badge">Portfolio</p>
+      <h2 class="section-title">Mon <em>travail</em></h2>
+    </div>
+
+    <div class="gallery-grid reveal">
+
+      <div class="gal-item">
+        <img class="gal-img"
+          src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=700&auto=format&fit=crop&q=80"
+          alt="Maquillage nuptial"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="gal-placeholder" style="display:none">💍</div>
+        <div class="gal-overlay"><span class="gal-label">Nuptial</span></div>
+      </div>
+
+      <div class="gal-item">
+        <img class="gal-img"
+          src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80"
+          alt="Maquillage éditorial"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="gal-placeholder" style="display:none">✨</div>
+        <div class="gal-overlay"><span class="gal-label">Éditorial</span></div>
+      </div>
+
+      <div class="gal-item">
+        <img class="gal-img"
+          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
+          alt="Maquillage artistique"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="gal-placeholder" style="display:none">🎭</div>
+        <div class="gal-overlay"><span class="gal-label">Artistique</span></div>
+      </div>
+
+      <div class="gal-item">
+        <img class="gal-img"
+          src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&auto=format&fit=crop&q=80"
+          alt="Maquillage événement"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="gal-placeholder" style="display:none">💄</div>
+        <div class="gal-overlay"><span class="gal-label">Événement</span></div>
+      </div>
+
+      <div class="gal-item">
+        <img class="gal-img"
+          src="https://images.unsplash.com/photo-1560116020-ab9f7f94e001?w=600&auto=format&fit=crop&q=80"
+          alt="Look naturel"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="gal-placeholder" style="display:none">🌹</div>
+        <div class="gal-overlay"><span class="gal-label">Naturel</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-badge">Témoignages</p>
+      <h2 class="section-title">Ce qu'elles <em>disent</em></h2>
+    </div>
+
+    <div class="testi-grid reveal">
+
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Jiji a transformé mon regard le jour de mon mariage. J'ai porté ce maquillage de 8h du matin jusqu'à 2h du soir — impeccable toute la journée. Toutes mes invitées lui ont demandé ses coordonnées !</p>
+        <p class="testi-author">— Yasmine B., mariée 2025</p>
+      </div>
+
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Professionnalisme, écoute et talent incroyable. Elle a compris exactement ce que je voulais pour mon shooting de marque personnelle. Le résultat était au-delà de mes attentes.</p>
+        <p class="testi-author">— Sofia R., entrepreneuse</p>
+      </div>
+
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Les cours de maquillage avec Jiji ont changé ma routine beauté. En 2 heures j'ai appris plus que des années de tutoriels YouTube. Elle explique avec passion et précision.</p>
+        <p class="testi-author">— Imane T., cliente fidèle</p>
+      </div>
+
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Mon maquillage d'anniversaire était le plus élégant de la soirée. Jiji a su marier glamour et naturel parfaitement. Je ne fais appel qu'à elle pour tous mes événements maintenant.</p>
+        <p class="testi-author">— Nadia K., événement spécial</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact" class="section alt">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="reveal-left">
+        <p class="section-badge">Contact</p>
+        <h2 class="section-title">Parlons de<br><em>votre look</em></h2>
+        <p>Disponible pour mariages, événements, shootings et cours. Répondez à ce formulaire et je vous contacte sous 24h.</p>
+
+        <div class="cinfo-line">
+          <span class="cinfo-icon">📞</span>
+          <div class="cinfo-detail">
+            <a href="tel:+34600000000">+34 600 000 000</a>
+            <small>Lun-Sam, 10h – 20h</small>
+          </div>
+        </div>
+
+        <div class="cinfo-line">
+          <span class="cinfo-icon">✉️</span>
+          <div class="cinfo-detail">
+            <a href="mailto:hello@jamikeup.com">hello@jamikeup.com</a>
+          </div>
+        </div>
+
+        <div class="cinfo-line">
+          <span class="cinfo-icon">📍</span>
+          <div class="cinfo-detail">
+            Déplacement à domicile
+            <small>Zone couverte: à préciser à la réservation</small>
+          </div>
+        </div>
+
+        <div class="social-row">
+          <a href="https://instagram.com/jamikeup" target="_blank" rel="noopener" class="soc-btn" title="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://tiktok.com/@jamikeup" target="_blank" rel="noopener" class="soc-btn" title="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/34600000000" target="_blank" rel="noopener" class="soc-btn" title="WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <form id="cForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+          <div class="frow">
+            <div class="fgroup">
+              <label for="prenom">Prénom</label>
+              <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
+            </div>
+            <div class="fgroup">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="vous@email.com" required>
+            </div>
+          </div>
+
+          <div class="fgroup">
+            <label for="tel">Téléphone (optionnel)</label>
+            <input type="tel" id="tel" name="tel" placeholder="+34 600 000 000">
+          </div>
+
+          <div class="fgroup">
+            <label for="service">Service souhaité</label>
+            <select id="service" name="service">
+              <option value="">— Choisissez un service —</option>
+              <option value="nuptial">Maquillage Nuptial</option>
+              <option value="evenement">Événements &amp; Galas</option>
+              <option value="editorial">Éditorial &amp; Photo</option>
+              <option value="artistique">Maquillage Artistique</option>
+              <option value="cours">Cours Personnalisés</option>
+              <option value="pack">Pack Mariage Complet</option>
+            </select>
+          </div>
+
+          <div class="fgroup">
+            <label for="date">Date souhaitée</label>
+            <input type="text" id="date" name="date" placeholder="Ex: Juin 2026">
+          </div>
+
+          <div class="fgroup">
+            <label for="msg">Parlez-moi de votre projet</label>
+            <textarea id="msg" name="message" placeholder="Décrivez votre événement, style recherché, références…" required></textarea>
+          </div>
+
+          <button type="submit" class="fbtn" id="fBtn">Envoyer le message</button>
+          <div class="fmsg" id="fMsg"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-logo">
+    <svg width="32" height="26" viewBox="0 0 60 46" fill="none">
+      <path d="M30 8C22 8 12 14 6 20C12 18 18 16 24 17C26 17.5 28 19 30 19C32 19 34 17.5 36 17C42 16 48 18 54 20C48 14 38 8 30 8Z" fill="#9b5a44"/>
+      <path d="M6 20C10 26 18 38 30 38C42 38 50 26 54 20C48 18 42 16 36 17C34 17.5 32 19 30 21C28 19 26 17.5 24 17C18 16 12 18 6 20Z" fill="#7a3f2c"/>
+      <path d="M24 17C26 17.5 28 19 30 19C32 19 34 17.5 36 17C34 20 32 21 30 21C28 21 26 20 24 17Z" fill="#c9a55a" opacity="0.5"/>
+    </svg>
+    <span class="footer-wordmark">JAMIKEUP</span>
+  </div>
+  <p class="footer-sub">Makeup Artist</p>
+  <p class="footer-by">by jiji</p>
+
+  <div class="social-row" style="justify-content:center">
+    <a href="https://instagram.com/jamikeup" target="_blank" rel="noopener" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://tiktok.com/@jamikeup" target="_blank" rel="noopener" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+    <a href="https://wa.me/34600000000" target="_blank" rel="noopener" class="soc-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+
+  <div class="footer-copy">
+    &copy; 2026 JAMIKEUP · Makeup Artist by Jiji · Tous droits réservés
+  </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+  /* --- Navbar scroll --- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 60);
+  }, { passive: true });
+
+  /* --- Burger / Mobile nav --- */
+  const burger    = document.getElementById('burger');
+  const mobileNav = document.getElementById('mobile-nav');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  function closeMobile() {
+    burger.classList.remove('open');
+    mobileNav.classList.remove('open');
+  }
+
+  /* --- Scroll reveal --- */
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.12 });
+  allReveal.forEach(el => io.observe(el));
+
+  /* --- Contact form (Formspree async) --- */
+  const cForm = document.getElementById('cForm');
+  const fMsg  = document.getElementById('fMsg');
+  const fBtn  = document.getElementById('fBtn');
+
+  cForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    fBtn.disabled = true;
+    fBtn.textContent = 'Envoi en cours…';
+    fMsg.className = 'fmsg';
+
+    try {
+      const res = await fetch(cForm.action, {
+        method: 'POST',
+        body: new FormData(cForm),
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        fMsg.className = 'fmsg ok';
+        fMsg.textContent = '✦ Message envoyé ! Je vous réponds dans les 24h.';
+        cForm.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      fMsg.className = 'fmsg err';
+      fMsg.textContent = '✗ Erreur d\'envoi. Contactez directement : hello@jamikeup.com';
+    }
+
+    fBtn.disabled = false;
+    fBtn.textContent = 'Envoyer le message';
+  });
+
+  /* --- Smooth scroll --- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
