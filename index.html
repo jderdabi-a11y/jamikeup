@@ -1007,23 +1007,25 @@
           <div class="ct-icon">📱</div>
           <div class="ct-info">
             <span class="ct-lbl" data-i18n="ct_wa_lbl">WhatsApp &amp; Téléphone</span>
-            <span class="ct-val">+212 6 00 00 00 00</span>
+            <span class="ct-val">+212 6 10 07 34 85</span>
           </div>
         </div>
         <div class="ct-item">
           <div class="ct-icon">✉</div>
           <div class="ct-info">
             <span class="ct-lbl">Email</span>
-            <span class="ct-val">jiji@jamikeup.com</span>
+            <span class="ct-val">jderdabi@gmail.com</span>
           </div>
         </div>
       </div>
-      <a href="https://wa.me/212600000000" class="wa-btn" target="_blank" rel="noopener">
+      <a href="https://wa.me/212610073485" class="wa-btn" target="_blank" rel="noopener">
         <span>💬</span><span data-i18n="wa_btn">Écrire sur WhatsApp</span>
       </a>
     </div>
     <div class="rv-r">
       <form class="ct-form" id="ct-form" onsubmit="submitForm(event)">
+        <input type="hidden" name="_subject" value="✦ Nouvelle demande JAMIKEUP">
+        <input type="hidden" name="_replyto" id="f-replyto">
         <div class="f-row">
           <div class="f-group">
             <label class="f-label" data-i18n="f_name">Prénom &amp; Nom</label>
@@ -1031,7 +1033,7 @@
           </div>
           <div class="f-group">
             <label class="f-label" data-i18n="f_email">Email</label>
-            <input class="f-input" type="email" name="email" required placeholder="sophia@email.com">
+            <input class="f-input" type="email" name="email" required placeholder="sophia@email.com" oninput="document.getElementById('f-replyto').value=this.value">
           </div>
         </div>
         <div class="f-group">
@@ -1123,7 +1125,7 @@ const T = {
     testi_name:'Sophia M.', testi_role:'Mariée, Casablanca 2024',
     ct_label:'Nous contacter',
     ct_title:'Commençons votre <strong>histoire</strong> ensemble',
-    ct_loc_lbl:'Localisation', ct_loc:'Maroc · Déplacements France & International',
+    ct_loc_lbl:'Localisation', ct_loc:'Tétouan, Maroc · Déplacements France & International',
     ct_wa_lbl:'WhatsApp & Téléphone', wa_btn:'Écrire sur WhatsApp',
     f_name:'Prénom & Nom', f_email:'Email', f_svc:'Service souhaité',
     f_date:"Date de l'événement", f_msg:'Votre message',
@@ -1163,7 +1165,7 @@ const T = {
     testi_name:'Sophia M.', testi_role:'Novia, Casablanca 2024',
     ct_label:'Contáctanos',
     ct_title:'Comencemos tu <strong>historia</strong> juntas',
-    ct_loc_lbl:'Ubicación', ct_loc:'Marruecos · Viajes a Francia & Internacional',
+    ct_loc_lbl:'Ubicación', ct_loc:'Tetuán, Marruecos · Viajes a Francia & Internacional',
     ct_wa_lbl:'WhatsApp & Teléfono', wa_btn:'Escribir por WhatsApp',
     f_name:'Nombre & Apellido', f_email:'Email', f_svc:'Servicio deseado',
     f_date:'Fecha del evento', f_msg:'Tu mensaje',
@@ -1203,7 +1205,7 @@ const T = {
     testi_name:'صوفيا م.', testi_role:'عروس، الدار البيضاء 2024',
     ct_label:'تواصلي معنا',
     ct_title:'لنبدأ <strong>قصتك</strong> معاً',
-    ct_loc_lbl:'الموقع', ct_loc:'المغرب · السفر إلى فرنسا والخارج',
+    ct_loc_lbl:'الموقع', ct_loc:'تطوان، المغرب · السفر إلى فرنسا والخارج',
     ct_wa_lbl:'واتساب والهاتف', wa_btn:'الكتابة على واتساب',
     f_name:'الاسم واللقب', f_email:'البريد الإلكتروني', f_svc:'الخدمة المطلوبة',
     f_date:'تاريخ المناسبة', f_msg:'رسالتك',
@@ -1383,16 +1385,46 @@ document.querySelectorAll('.flt-btn').forEach(btn => {
   });
 })();
 
-/* ── FORM ────────────────────────────────────────────── */
+/* ── FORM — Formspree ────────────────────────────────── */
+/* IMPORTANT : remplacez VOTRE_ID_FORMSPREE par votre ID  */
+/* obtenez-le sur https://formspree.io (compte gratuit)   */
+const FORMSPREE_ID = 'VOTRE_ID_FORMSPREE';
+
 function submitForm(e) {
   e.preventDefault();
-  const btn = document.getElementById('f-submit');
-  btn.textContent = '✓ ' + (lang === 'ar' ? 'تم الإرسال!' : lang === 'es' ? '¡Enviado!' : 'Envoyé !');
-  btn.style.background = 'var(--gold-dk)';
-  setTimeout(() => {
-    btn.innerHTML = T[lang].f_submit || 'Envoyer ma demande ✦';
-    btn.style.background = '';
-  }, 3500);
+  const form = e.target;
+  const btn  = document.getElementById('f-submit');
+  const ok   = lang === 'ar' ? 'تم الإرسال! ✓' : lang === 'es' ? '¡Enviado! ✓' : 'Envoyé ! ✓';
+  const err  = lang === 'ar' ? 'خطأ، حاولي مرة أخرى' : lang === 'es' ? 'Error, inténtalo de nuevo' : 'Erreur, réessayez';
+
+  btn.disabled    = true;
+  btn.textContent = '...';
+
+  fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+    method:  'POST',
+    headers: { 'Accept': 'application/json' },
+    body:    new FormData(form)
+  })
+  .then(r => {
+    if (!r.ok) throw new Error();
+    btn.textContent    = ok;
+    btn.style.background = 'var(--gold-dk)';
+    form.reset();
+    setTimeout(() => {
+      btn.innerHTML        = T[lang].f_submit || 'Envoyer ma demande ✦';
+      btn.style.background = '';
+      btn.disabled         = false;
+    }, 4000);
+  })
+  .catch(() => {
+    btn.textContent    = err;
+    btn.style.background = '#8b2020';
+    setTimeout(() => {
+      btn.innerHTML        = T[lang].f_submit || 'Envoyer ma demande ✦';
+      btn.style.background = '';
+      btn.disabled         = false;
+    }, 3500);
+  });
 }
 
 /* ── INIT ────────────────────────────────────────────── */
